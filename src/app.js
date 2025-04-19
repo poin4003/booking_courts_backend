@@ -2,6 +2,7 @@ const express = require('express')
 const morgan = require('morgan')
 const compression = require('compression')
 const helmet = require('helmet')
+const cors = require('cors');
 
 // Init config
 require('dotenv').config()
@@ -19,6 +20,14 @@ app.use(express.json())
 app.use(express.urlencoded({
   extended: true
 }))
+
+// Cross origin
+app.use(cors({
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+}));
 
 // Init router
 app.use('/', require('./routes'))
