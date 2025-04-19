@@ -1,0 +1,7 @@
+USER_DOCUMENT_NAME = 'User'
+USER_COLLECTION_NAME = 'Users'
+
+module.exports = {
+  USER_DOCUMENT_NAME,
+  USER_COLLECTION_NAME,
+}
