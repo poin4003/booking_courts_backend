@@ -42,7 +42,7 @@ app.use((req, res, next) => {
 app.use((error, req, res, next) => {
   const statusCode = error.status || 500
   let message = error.message || 'Internal Server Error'
-
+   
   if (error.details && Array.isArray(error.details)) {
     message = error.details[0].message
   }
