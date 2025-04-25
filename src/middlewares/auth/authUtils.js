@@ -3,6 +3,7 @@
 const JWT = require('jsonwebtoken')
 const { asyncHandler } = require('../../helpers/asyncHandler')
 const { AuthFailureError } = require('../../core/error.response')
+const config = require('../../configs/config')
 
 const createToken = ( payload, jwt_scret_key ) => {
   try {
@@ -26,23 +27,27 @@ const createToken = ( payload, jwt_scret_key ) => {
 }
 
 const authentication = asyncHandler(async (req, res, next) => {
-  // 1. Check userId missing
-  const userId = req.headers[HEADER.CLIENT_ID]
-  if (!userId) throw new AuthFailureError('Invalid requets')
+  const authHeader = req.headers.authorization
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    throw new AuthFailureError('Invalid or missing Authorization header')
+  }
 
-  // 3. Get and verify token
-  const accessToken = req.headers[HEADER.AUTHORIZATION]
-  if (!accessToken) throw new AuthFailureError('Invalid request')
+  const accessToken = authHeader.replace('Bearer ', '')
+  if (!accessToken) {
+    throw new AuthFailureError('Token is required')
+  }
 
   try {
-    const decodeUser = JWT.verify( accessToken, keyStore.publicKey )
-    // 4. Check keyStore with userId
-    if (userId !== decodeUser.userId) throw new AuthFailureError('Invalid UserId')
-    req.keyStore = keyStore
+    console.log(config.app.jwt_secret_key);
+    const decodeUser = JWT.verify(accessToken, config.app.jwt_secret_key)
+
     req.user = decodeUser
     return next()
   } catch (error) {
-    throw error
+    if (error.name === 'TokenExpiredError') {
+      throw new AuthFailureError('Token has expired')
+    }
+    throw new AuthFailureError('Invalid token')
   }
 })
 
