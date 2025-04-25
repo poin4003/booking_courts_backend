@@ -14,6 +14,11 @@ const venueSchema = new Schema({
       type: String, 
       required: true
     },
+    phone: {
+
+      type: String, 
+      required: true
+    },
     location: {
       lat: {
         type: Number, 
@@ -27,6 +32,7 @@ const venueSchema = new Schema({
     sport_types: [{
       type: String
     }],
+
     amenities: [{
       type: String
     }],

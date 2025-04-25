@@ -4,20 +4,24 @@ const VenueRepo = require('../models/repositories/venue.repo')
 const { getInfoData } = require('../utils/getter')
 class VenueService {
     createVenue = async (venueData) => {
-      if (!venueData.name || !venueData.address) {
-        throw new BadRequestError('Missing required fields: name or address')
+      if (!venueData.name || !venueData.address || !venueData.phone) {
+        throw new BadRequestError('Missing required fields: name or address or phone')
       }
 
-      const existed = await VenueRepo.findDuplicateVenue(
-        venueData.name,
-        venueData.address,
-        venueData.location
-      )
-      if (existed) {
-        throw new BadRequestError('Venue already exists')
+  
+      if (await VenueRepo.findByName(venueData.name)) {
+        throw new BadRequestError('Venue name already exists')
+      }
+      if (await VenueRepo.findByAddress(venueData.address)) {
+        throw new BadRequestError('Venue address already exists')
+      }
+      if (await VenueRepo.findByPhone(venueData.phone)) {
+        throw new BadRequestError('Venue phone already exists')
+      }
+      if (await VenueRepo.findByLocation(venueData.location)) {
+        throw new BadRequestError('Venue location already exists')
       }
       const newVenue = await VenueRepo.createOne(venueData)
-
   
       return newVenue
     }

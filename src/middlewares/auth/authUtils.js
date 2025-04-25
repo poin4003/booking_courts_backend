@@ -1,8 +1,9 @@
 "use strict";
 
-const JWT = require("jsonwebtoken");
-const { asyncHandler } = require("../../helpers/asyncHandler");
-const { AuthFailureError } = require("../../core/error.response");
+const JWT = require('jsonwebtoken')
+const { asyncHandler } = require('../../helpers/asyncHandler')
+const { AuthFailureError } = require('../../core/error.response')
+const config = require('../../configs/config')
 
 const createToken = (payload, jwt_scret_key) => {
   try {
@@ -27,23 +28,22 @@ const createToken = (payload, jwt_scret_key) => {
 
 const authentication = asyncHandler(async (req, res, next) => {
   // 1. Check userId missing
-  const userId = req.headers[HEADER.CLIENT_ID];
-  if (!userId) throw new AuthFailureError("Invalid requets");
+  const userId = req.headers[HEADER.CLIENT_ID]
+  if (!userId) throw new AuthFailureError('Invalid requets')
 
   // 3. Get and verify token
-  const accessToken = req.headers[HEADER.AUTHORIZATION];
-  if (!accessToken) throw new AuthFailureError("Invalid request");
+  const accessToken = req.headers[HEADER.AUTHORIZATION]
+  if (!accessToken) throw new AuthFailureError('Invalid request')
 
   try {
-    const decodeUser = JWT.verify(accessToken, keyStore.publicKey);
+    const decodeUser = JWT.verify( accessToken, keyStore.publicKey )
     // 4. Check keyStore with userId
-    if (userId !== decodeUser.userId)
-      throw new AuthFailureError("Invalid UserId");
-    req.keyStore = keyStore;
-    req.user = decodeUser;
-    return next();
+    if (userId !== decodeUser.userId) throw new AuthFailureError('Invalid UserId')
+    req.keyStore = keyStore
+    req.user = decodeUser
+    return next()
   } catch (error) {
-    throw error;
+    throw error
   }
 });
 
