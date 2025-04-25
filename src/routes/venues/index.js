@@ -10,29 +10,29 @@ const { authentication } = require("../../middlewares/auth/authUtils");
 const router = express.Router();
 
 router.post(
-  "/venue/create",
+  "/venue",
   authentication,
-  permission("ADMIN"),
+  //permission("ADMIN"),
   validateBody(venueValidationSchema),
   asyncHandler(VenueController.createVenue)
 );
 
-router.get("/venue/getAll", asyncHandler(VenueController.getAllVenues));
+router.get("/venue", asyncHandler(VenueController.getAllVenues));
 
 router.get("/venue/:id", asyncHandler(VenueController.getVenueById));
 
 router.put(
   "/venue/:id",
   authentication,
-  permission("ADMIN"),
+  //permission("ADMIN"),
   validateBody(venueValidationSchema),
   asyncHandler(VenueController.updateVenue)
 );
 
 router.delete(
-  "/venue/delete/:id",
+  "/venue/:id",
   authentication,
-  permission("ADMIN"),
+  //permission("ADMIN"),
   asyncHandler(VenueController.deleteVenue)
 );
 

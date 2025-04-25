@@ -2,7 +2,7 @@
 
 const Joi = require('joi')
 
-// DTO để validate dữ liệu cho tạo mới venue hoặc cập nhật venue
+
 const venueValidationSchema = Joi.object({
   name: Joi.string().min(3).max(255).required().messages({
     'string.base': 'Name must be a string',
@@ -13,6 +13,10 @@ const venueValidationSchema = Joi.object({
   address: Joi.string().required().messages({
     'string.base': 'Address must be a string',
     'any.required': 'Address is required'
+  }),
+  phone: Joi.string().required().messages({
+    'string.base': 'Phone must be a string',
+    'any.required': 'Phone is required'
   }),
   location: Joi.object({
     lat: Joi.number().required().messages({
