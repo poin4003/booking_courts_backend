@@ -12,8 +12,7 @@ class VenueController {
             message: 'Venue created successfully',
             metadata: newVenue
           }).send(res)
-        }
-        
+        }       
   getAllVenues = async (req, res, next) => {
     const venues = await VenueService.getAllVenues()  
     new OK({
@@ -21,7 +20,6 @@ class VenueController {
       metadata: venues
     }).send(res)
   }
-
   getVenueById = async (req, res, next) => {
     const venueId = req.params.id
     const venue = await VenueService.getVenueById(venueId) 
@@ -30,8 +28,6 @@ class VenueController {
       metadata: venue
     }).send(res)
   }
-
-  // Cập nhật venue
   updateVenue = async (req, res, next) => {
     const venueId = req.params.id
     const updatedData = req.body
@@ -41,8 +37,6 @@ class VenueController {
       metadata: updatedVenue
     }).send(res)
   }
-
-  // Xóa venue
   deleteVenue = async (req, res, next) => {
     const venueId = req.params.id
     const deletedVenue = await VenueService.deleteVenue(venueId) 
