@@ -36,16 +36,23 @@ pipeline {
                     '''
 
                     sh '''
-                        sshpass -p "${PROD_PASSWORD}" ssh -o StrictHostKeyChecking=no -p "${PROD_SERVER_PORT}" "${PROD_USER}"@${PROD_SERVER_NAME} "
+                        sshpass -p "${PROD_PASSWORD}" ssh -o StrictHostKeyChecking=no -p "${PROD_SERVER_PORT}" "${PROD_USER}"@${PROD_SERVER_NAME}" '
                             cd /home/pchuy/documents/booking_courts_backend && \
                             git pull origin master && \
-                            pm2 reload all
-                        "
+
+                            echo "Deleting old pm2 process (if any)..." && \
+                            pm2 delete booking_court_backend_server || true && \
+
+                            echo "Starting new pm2 process..." && \
+                            pm2 start server.js --name backend_court_backend_server && \
+
+                            echo "Saving pm2 process list..." && \
+                            pm2 save
+                        '
                     '''
                 }
             }
         }
-
     }
 
     post {
