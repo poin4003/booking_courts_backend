@@ -65,7 +65,7 @@ class AuthService {
 
       return {
         user: getInfoData({
-          fileds: ["_id", "name", "email", "role", "status"], 
+          fileds: ["_id", "name", "email", "role", "status"],
           object: newUser,
         }),
         token: accessToken,
