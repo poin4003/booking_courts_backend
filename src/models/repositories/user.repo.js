@@ -15,19 +15,6 @@ const findByEmail = async ({
   return await userModel.findOne({ email }).select(select).lean();
 };
 
-const findById = async (
-  userId,
-  select = {
-    email: 1,
-    password: 1,
-    name: 1,
-    status: 1,
-    role: 1,
-  }
-) => {
-  return await userModel.findById(userId).select(select).lean();
-};
-
 const createOne = async ({ name, email, phone, hashedPassword, role }) => {
   return await userModel.create({
     name,
@@ -41,6 +28,5 @@ const createOne = async ({ name, email, phone, hashedPassword, role }) => {
 
 module.exports = {
   findByEmail,
-  findById,
   createOne,
 };
