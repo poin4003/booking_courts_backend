@@ -32,12 +32,12 @@ pipeline {
 
                     sh '''
                         echo 'Copying .env to server...'
-                        sshpass -p "${PROD_PASSWORD}" scp -P "${PROD_SERVER_PORT}" .env "${PROD_USER}"@${PROD_SERVER_NAME}:/home/pchuy/documents/booking_court_backend/.env
+                        sshpass -p "${PROD_PASSWORD}" scp -P "${PROD_SERVER_PORT}" .env "${PROD_USER}"@${PROD_SERVER_NAME}:/home/pchuy/documents/booking_courts_backend/.env
                     '''
 
                     sh '''
                         sshpass -p "${PROD_PASSWORD}" ssh -o StrictHostKeyChecking=no -p "${PROD_SERVER_PORT}" "${PROD_USER}"@${PROD_SERVER_NAME} "
-                            cd /home/pchuy/documents/booking_court_backend && \
+                            cd /home/pchuy/documents/booking_courts_backend && \
                             git pull origin master && \
                             pm2 reload all
                         "
