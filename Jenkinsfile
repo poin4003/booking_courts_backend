@@ -32,7 +32,7 @@ pipeline {
 
                     sh '''
                         echo 'Copying .env to server...'
-                        sshpass -p "${PROD_PASSWORD}" scp -P "${PROD_SERVER_PORT}" .env "${PROD_USER}"@${PROD_SERVER_NAME}:/home/pchuy/documents/booking_courts_backend/.env
+                        sshpass -p "${PROD_PASSWORD}" scp -P "${PROD_SERVER_PORT}" .env "${PROD_USER}"@${PROD_SERVER_NAME}:/home/pchuy/documents/booking_court_backend/.env
                     '''
 
                     sh '''
