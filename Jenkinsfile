@@ -28,34 +28,30 @@ pipeline {
         stage('Deploy to Production') {
             steps {
                 script {
-                    echo 'Deploying to Production Server via git pull + pm2...'
+                    echo 'Deploying to Production Server via git pull + npm install + pm2...'
 
                     sh '''
-                        echo "Deleting old .env file on server..."
-                        sshpass -p "$PROD_PASSWORD" ssh -o StrictHostKeyChecking=no -p "$PROD_SERVER_PORT" "$PROD_USER@$PROD_SERVER_NAME" "rm -f /home/pchuy/documents/booking_courts_backend/.env"
+                        echo 'Deleting old .env file on server...'
+                        sshpass -p "${PROD_PASSWORD}" ssh -o StrictHostKeyChecking=no -p "${PROD_SERVER_PORT}" "${PROD_USER}"@${PROD_SERVER_NAME} "
+                            rm -f /home/pchuy/documents/booking_courts_backend/.env
+                        "
 
-                        echo "Copying new .env to server..."
-                        sshpass -p "$PROD_PASSWORD" scp -P "$PROD_SERVER_PORT" .env "$PROD_USER@$PROD_SERVER_NAME:/home/pchuy/documents/booking_courts_backend/.env"
+                        echo 'Copying new .env to server...'
+                        sshpass -p "${PROD_PASSWORD}" scp -P "${PROD_SERVER_PORT}" .env "${PROD_USER}"@${PROD_SERVER_NAME}:/home/pchuy/documents/booking_courts_backend/.env
 
-                        echo "Deploying backend..."
-                        sshpass -p "$PROD_PASSWORD" ssh -o StrictHostKeyChecking=no -p "$PROD_SERVER_PORT" "$PROD_USER@$PROD_SERVER_NAME" '
+                        echo 'Deploying app...'
+                        sshpass -p "${PROD_PASSWORD}" ssh -o StrictHostKeyChecking=no -p "${PROD_SERVER_PORT}" "${PROD_USER}"@${PROD_SERVER_NAME} "
                             cd /home/pchuy/documents/booking_courts_backend && \
                             git pull origin master && \
-
-                            echo "Deleting old pm2 process (if any)..." && \
+                            npm install && \
                             pm2 delete booking_court_backend_server || true && \
-
-                            echo "Starting new pm2 process..." && \
                             pm2 start server.js --name backend_court_backend_server && \
-
-                            echo "Saving pm2 process list..." && \
                             pm2 save
-                        '
+                        "
                     '''
                 }
             }
         }
- 
     }
 
     post {
