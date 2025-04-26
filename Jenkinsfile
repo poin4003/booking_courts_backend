@@ -31,7 +31,14 @@ pipeline {
                     echo 'Deploying to Production Server via git pull + pm2...'
 
                     sh '''
-                        echo 'Copying .env to server...'
+                        echo 'Deleting old .env file on server...'
+                        sshpass -p "${PROD_PASSWORD}" ssh -o StrictHostKeyChecking=no -p "${PROD_SERVER_PORT}" "${PROD_USER}"@${PROD_SERVER_NAME} "
+                            rm -f /home/pchuy/documents/booking_courts_backend/.env
+                        "
+                    '''
+
+                    sh '''
+                        echo 'Copying new .env to server...'
                         sshpass -p "${PROD_PASSWORD}" scp -P "${PROD_SERVER_PORT}" .env "${PROD_USER}"@${PROD_SERVER_NAME}:/home/pchuy/documents/booking_courts_backend/.env
                     '''
 
