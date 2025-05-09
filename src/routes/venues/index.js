@@ -3,7 +3,10 @@
 const express = require("express");
 const VenueController = require("../../controllers/venue_controller");
 const { asyncHandler } = require("../../helpers/asyncHandler");
-const { validateBody } = require("../../middlewares/validator/validateHandler");
+const { 
+  validateBody,
+  validateQuery
+} = require("../../middlewares/validator/validateHandler");
 const { 
   createVenueValidationSchema, 
   updateVenueValidationSchema, 
@@ -15,7 +18,7 @@ const router = express.Router();
 
 
 router.get("/venue", 
-  validateBody(searchVenueValidationSchema),
+  validateQuery(searchVenueValidationSchema),
   asyncHandler(VenueController.getAllVenues)
 )
 router.get("/venue/:id", asyncHandler(VenueController.getVenueById))
