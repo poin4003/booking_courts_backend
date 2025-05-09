@@ -4,34 +4,42 @@ const express = require("express");
 const VenueController = require("../../controllers/venue_controller");
 const { asyncHandler } = require("../../helpers/asyncHandler");
 const { validateBody } = require("../../middlewares/validator/validateHandler");
-const { venueValidationSchema } = require("../../dtos/venue_dto");
+const { 
+  createVenueValidationSchema, 
+  updateVenueValidationSchema, 
+  searchVenueValidationSchema 
+} = require("../../dtos/venue_dto");
 const { permission } = require("../../middlewares/auth/checkAuth");
 const { authentication } = require("../../middlewares/auth/authUtils");
 const router = express.Router();
 
+
+router.get("/venue", 
+  validateBody(searchVenueValidationSchema),
+  asyncHandler(VenueController.getAllVenues)
+)
+router.get("/venue/:id", asyncHandler(VenueController.getVenueById))
+
+// authentication //
+router.use(authentication)
+////////////////////////
+
 router.post(
   "/venue",
-  authentication,
   //permission("ADMIN"),
-  validateBody(venueValidationSchema),
+  validateBody(createVenueValidationSchema),
   asyncHandler(VenueController.createVenue)
 );
 
-router.get("/venue", asyncHandler(VenueController.getAllVenues));
-
-router.get("/venue/:id", asyncHandler(VenueController.getVenueById));
-
 router.put(
   "/venue/:id",
-  authentication,
   //permission("ADMIN"),
-  validateBody(venueValidationSchema),
+  validateBody(updateVenueValidationSchema),
   asyncHandler(VenueController.updateVenue)
 );
 
 router.delete(
   "/venue/:id",
-  authentication,
   //permission("ADMIN"),
   asyncHandler(VenueController.deleteVenue)
 );

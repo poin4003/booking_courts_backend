@@ -34,8 +34,8 @@ app.use('/', require('./routes'))
 
 // Handle rrrors
 app.use((req, res, next) => {
-  const error = new Error('Not found')
-  error.status = 404
+  const err = new Error('Not found')
+  err.status = 404
   next(err)
 })
 
