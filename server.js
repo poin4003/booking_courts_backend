@@ -3,8 +3,8 @@ const config = require('./src/configs/config')
 
 const PORT = config.app.port || 3055
 
-const server = app.listen(PORT, () => {
-  console.log(`WSV booking courts start with port: http://localhost:${PORT}`)
+const server = app.listen(PORT, '0.0.0.0', () => {
+  console.log(`WSV booking courts start with port: http://0.0.0.0:${PORT}`)
 })
 
 process.on('SIGINT', () => {
