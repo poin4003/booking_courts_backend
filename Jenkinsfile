@@ -45,7 +45,7 @@ pipeline {
                             git pull origin master && \
                             npm install && \
                             pm2 delete booking_court_backend_server || true && \
-                            pm2 start server.js --name backend_court_backend_server && \
+                            pm2 start server.js --name booking_court_backend_server && \
                             pm2 save
                         "
                     '''
