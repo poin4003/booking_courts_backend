@@ -6,8 +6,8 @@ pipeline {
         PROD_SERVER_NAME = credentials('PROD_SERVER_NAME')
         PROD_USER = credentials('PROD_USER')
         PROD_PASSWORD = credentials('PROD_PASSWORD')
-        TELEGRAM_BOT_TOKEN = credentials('TELEGRAM_BOT_TOKEN')
-        TELEGRAM_CHAT_ID = credentials('TELEGRAM_CHAT_ID')
+        // TELEGRAM_BOT_TOKEN = credentials('TELEGRAM_BOT_TOKEN')
+        // TELEGRAM_CHAT_ID = credentials('TELEGRAM_CHAT_ID')
     }
 
     stages {
@@ -54,25 +54,25 @@ pipeline {
         }
     }
 
-    post {
-        success {
-            cleanWs()
-            sendTelegramMessage("✅ Node.js Build #${BUILD_NUMBER} was successful! ✅")
-        }
+    // post {
+    //     success {
+    //         cleanWs()
+    //         sendTelegramMessage("✅Booking court backend Build #${BUILD_NUMBER} was successful! ✅")
+    //     }
 
-        failure {
-            cleanWs()
-            sendTelegramMessage("❌ Node.js Build #${BUILD_NUMBER} failed. ❌")
-        }
-    }
+    //     failure {
+    //         cleanWs()
+    //         sendTelegramMessage("❌Booking court backend Build #${BUILD_NUMBER} failed. ❌")
+    //     }
+    // }
 }
 
-def sendTelegramMessage(String message) {
-    withEnv(["MESSAGE=${message}"]) {
-        sh '''
-        curl -s -X POST https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage \
-        -d chat_id=$TELEGRAM_CHAT_ID \
-        -d text="$MESSAGE"
-        '''
-    }
-}
+// def sendTelegramMessage(String message) {
+//     withEnv(["MESSAGE=${message}"]) {
+//         sh '''
+//         curl -s -X POST https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage \
+//         -d chat_id=$TELEGRAM_CHAT_ID \
+//         -d text="$MESSAGE"
+//         '''
+//     }
+// }
