@@ -46,7 +46,7 @@ pipeline {
                             npm install && \
                             export NODE_ENV=prod \
                             pm2 delete booking_court_backend_server || true && \
-                            pm2 start server.js --name booking_court_backend_server && \
+                            pm2 start server.js --name booking_court_backend_server -f && \
                             pm2 save
                         "
                     '''
