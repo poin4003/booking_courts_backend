@@ -53,7 +53,10 @@ pipeline {
             }
         }
     }
-    cleanWs()
+
+    post {
+        cleanWs()
+    }
 
     // post {
     //     success {
