@@ -23,7 +23,7 @@ app.use(express.urlencoded({
 
 // Cross origin
 app.use(cors({
-  origin: 'http://localhost:5173, http://bookingcourt.duckdns.org:4173',
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
