@@ -1,7 +1,7 @@
 'use strict'
 
 const express = require('express')
-const authController = require('../../controllers/auth_controller')
+const authController = require('../../controllers/auth.controller')
 const { asyncHandler } = require('../../helpers/asyncHandler')
 const { validateBody } = require('../../middlewares/validator/validateHandler')
 const { userValidateDto } = require('../../dtos/user_dto')

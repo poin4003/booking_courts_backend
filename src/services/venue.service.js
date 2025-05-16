@@ -2,7 +2,6 @@
 
 const { BadRequestError, NotFoundError } = require("../core/error.response")
 const VenueRepo = require("../models/repositories/venue.repo")
-const { getInfoData } = require("../utils/getter")
 
 class VenueService {
   createVenue = async (venueData) => {

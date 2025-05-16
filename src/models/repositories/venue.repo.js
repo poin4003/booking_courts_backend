@@ -1,6 +1,6 @@
 "use strict";
 
-const Venue = require("../../models/venue.model");
+const Venue = require("../venue.model");
 const { NotFoundError } = require("../../core/error.response");
 const { getSelectData, getUnSelectData } = require('../../utils/getter')
 

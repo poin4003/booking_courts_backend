@@ -1,30 +1,30 @@
 "use strict";
 
 const express = require("express");
-const VenueController = require("../../controllers/venue_controller");
+const VenueController = require("../../controllers/venue.controller");
 const { asyncHandler } = require("../../helpers/asyncHandler");
-const { 
+const {
   validateBody,
-  validateQuery
+  validateQuery,
 } = require("../../middlewares/validator/validateHandler");
-const { 
-  createVenueValidationSchema, 
-  updateVenueValidationSchema, 
-  searchVenueValidationSchema 
+const {
+  createVenueValidationSchema,
+  updateVenueValidationSchema,
+  searchVenueValidationSchema,
 } = require("../../dtos/venue_dto");
 const { permission } = require("../../middlewares/auth/checkAuth");
 const { authentication } = require("../../middlewares/auth/authUtils");
 const router = express.Router();
 
-
-router.get("/venue", 
+router.get(
+  "/venue",
   validateQuery(searchVenueValidationSchema),
   asyncHandler(VenueController.getAllVenues)
-)
-router.get("/venue/:id", asyncHandler(VenueController.getVenueById))
+);
+router.get("/venue/:id", asyncHandler(VenueController.getVenueById));
 
 // authentication //
-router.use(authentication)
+router.use(authentication);
 ////////////////////////
 
 router.post(
