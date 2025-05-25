@@ -44,6 +44,7 @@ class VnpayService {
     const vnpUrl = config.vnp_Url;
     const returnUrl = config.vnp_ReturnUrl;
     const currCode = 'VND';
+
     let vnp_Params = {};
     vnp_Params['vnp_Version'] = '2.1.0';
     vnp_Params['vnp_Command'] = 'pay';
@@ -66,9 +67,6 @@ class VnpayService {
     
     const hmac = crypto.createHmac("sha512", secretKey);
   const signed = hmac.update(Buffer.from(signData, 'utf-8')).digest("hex");
-    
-    console.log('Generated signature:', signed);
-
     vnp_Params['vnp_SecureHash'] = signed;
     const paymentUrl = vnpUrl + '?' + qs.stringify(vnp_Params, { encode: false });
     return paymentUrl;

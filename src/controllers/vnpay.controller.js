@@ -1,7 +1,7 @@
 const VnpayService = require('../services/vnpay.service');
 const { OK } = require('../core/success.response');
 const { BadRequestError } = require('../core/error.response');
-
+const BookingService = require('../services/booking.service'); 
 class VnpayController {
   createPaymentUrl = async (req, res) => {
     const ipAddr = req.headers['x-forwarded-for'] ||
@@ -37,13 +37,22 @@ class VnpayController {
   vnpayReturn = async (req, res) => {
     const params = req.query;
     const isValidSignature = VnpayService.validateReturn(params);
+      const txnRef = params.vnp_TxnRef;
     
     if (!isValidSignature) {
-      throw new BadRequestError('Invalid signature').send(res);
+    throw new BadRequestError('Invalid signature'); 
+
     }
 
     const responseCode = params.vnp_ResponseCode;
-    
+    const paymentData = {
+    transactionNo: params.vnp_TransactionNo,
+    bankCode: params.vnp_BankCode,
+    payDate: params.vnp_PayDate,
+    amount: params.vnp_Amount
+  };
+
+    const result = await BookingService.handlePaymentResult(txnRef, responseCode, paymentData);
     if (responseCode === '00') {
       new OK({
         message: 'Payment successful',
@@ -53,7 +62,8 @@ class VnpayController {
           orderInfo: params.vnp_OrderInfo,
           transactionNo: params.vnp_TransactionNo,
           bankCode: params.vnp_BankCode,
-          payDate: params.vnp_PayDate
+          payDate: params.vnp_PayDate,
+             bookingStatus: result.success ? 'confirmed' : 'pending'
         }
       }).send(res);
     } else {
@@ -61,7 +71,8 @@ class VnpayController {
         message: 'Payment failed or canceled',
         metadata: { 
           responseCode,
-          transactionRef: params.vnp_TxnRef 
+          transactionRef: params.vnp_TxnRef ,
+            bookingStatus: 'failed'
         }
       }).send(res);
     }
