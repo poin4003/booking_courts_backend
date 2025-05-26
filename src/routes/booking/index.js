@@ -12,7 +12,6 @@ const {
 const { authentication } = require('../../middlewares/auth/authUtils')
 const router = express.Router();
 
-
 // authentication //
 router.use(authentication);
 ///////////////////////
