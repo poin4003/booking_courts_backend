@@ -12,7 +12,7 @@ class VenueController {
       message: "Venue created successfully",
       metadata: newVenue,
     }).send(res);
-  }
+  };
 
   getAllVenues = async (req, res, next) => {
     const venues = await VenueService.getAllVenues(req.query);
@@ -20,7 +20,7 @@ class VenueController {
       message: "Venues retrieved successfully",
       metadata: venues,
     }).send(res);
-  }
+  };
 
   getVenueById = async (req, res, next) => {
     const venueId = req.params.id;
@@ -29,7 +29,7 @@ class VenueController {
       message: "Venue retrieved successfully",
       metadata: venue,
     }).send(res);
-  }
+  };
 
   updateVenue = async (req, res, next) => {
     const venueId = req.params.id;
@@ -39,7 +39,7 @@ class VenueController {
       message: "Venue updated successfully",
       metadata: updatedVenue,
     }).send(res);
-  }
+  };
 
   deleteVenue = async (req, res, next) => {
     const venueId = req.params.id;
@@ -48,7 +48,7 @@ class VenueController {
       message: "Venue deleted successfully",
       metadata: deletedVenue,
     }).send(res);
-  }
+  };
 }
 
-module.exports = new VenueController()
+module.exports = new VenueController();
