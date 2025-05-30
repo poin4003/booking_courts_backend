@@ -3,9 +3,12 @@ const morgan = require('morgan')
 const compression = require('compression')
 const helmet = require('helmet')
 const cors = require('cors');
+require("./cronjob/slot.cronjob");
+
 
 // Init config
 require('dotenv').config()
+
 
 // Init db
 require('./dbs/init.mongodb')

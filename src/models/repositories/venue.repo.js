@@ -98,6 +98,15 @@ class VenueRepo {
     return updatedVenue;
   };
 
+  updateSlotToAvailable = async () => {
+    await Venue.updateMany(
+      {},
+      {
+        $set: { "slots.$[].status": "available" },
+      }
+    );
+  };
+
   deleteOne = async (venueId) => {
     const deletedVenue = await Venue.findByIdAndDelete(venueId);
     if (!deletedVenue) {
