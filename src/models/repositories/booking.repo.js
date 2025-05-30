@@ -51,7 +51,7 @@ class BookingRepo {
           match: { _id: { $eq: "$slot_id" } },
         },
       })
-      .sort({ created_at: -1 }) 
+      .sort({ created_at: 1 }) 
       .lean();
   };
 
