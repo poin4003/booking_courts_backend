@@ -40,6 +40,7 @@ class BookingRepo {
   getBookingsByUserId = async (userId, limit, skip) => {
     return await bookingModel
       .find({ user_id: userId })
+      .sort({ created_at: -1 }) 
       .skip(skip)
       .limit(limit)
       .populate("user_id", "name email phone")
@@ -51,7 +52,6 @@ class BookingRepo {
           match: { _id: { $eq: "$slot_id" } },
         },
       })
-      .sort({ created_at: 1 }) 
       .lean();
   };
 
