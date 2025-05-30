@@ -28,22 +28,24 @@ router.get("/venue/:id", asyncHandler(VenueController.getVenueById));
 router.use(authentication);
 ////////////////////////
 
-// admin permission //
-router.use(permission("ADMIN"));
-///////////////////////
-
 router.post(
   "/venue",
+  permission("ADMIN"),
   validateBody(createVenueValidationSchema),
   asyncHandler(VenueController.createVenue)
 );
 
 router.put(
   "/venue/:id",
+  permission("ADMIN"),
   validateBody(updateVenueValidationSchema),
   asyncHandler(VenueController.updateVenue)
 );
 
-router.delete("/venue/:id", asyncHandler(VenueController.deleteVenue));
+router.delete(
+  "/venue/:id",
+  permission("ADMIN"),
+  asyncHandler(VenueController.deleteVenue)
+);
 
 module.exports = router;
